@@ -1,10 +1,9 @@
+import { StyleSheet, Text, View } from 'react-native';
+import Home from './Home';
+import BarcodeScanner from './components/BarcodeScanner'
+import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import Home from "./Home";
-import {
-  MD3LightTheme as DefaultTheme,
-  Provider as PaperProvider,
-} from "react-native-paper";
+import Scanner from './components/BarcodeScanner';
 
 const theme = {
   ...DefaultTheme,

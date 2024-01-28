@@ -4,22 +4,26 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
+  Text,
 } from "react-native";
+import { Card } from "react-native-paper";
+
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { Searchbar } from "react-native-paper";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Camera } from "expo-camera";
-
+import Scanner from "./components/BarcodeScanner";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [hasPermission, setHasPermission] = useState(null);
+  const [isScannerVisible, setIsScannerVisible] = useState(false);
 
   const onChangeSearch = (query) => setSearchQuery(query);
 
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ["15%", "90%"], []);
+  const snapPoints = useMemo(() => ["13%", "90%"], []);
 
   useEffect(() => {
     (async () => {
@@ -38,7 +42,9 @@ const Home = () => {
     }
   };
 
+
   const handleBarcodePress = () => {
+    setIsScannerVisible(!isScannerVisible);
     console.log("Barcode Icon Pressed");
   };
 
@@ -49,11 +55,11 @@ const Home = () => {
     return <Text>No access to camera</Text>;
   }
 
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
+          {isScannerVisible && <Scanner style={styles.scannerStyle} />}
           <BottomSheet
             ref={bottomSheetRef}
             index={0}
@@ -62,7 +68,6 @@ const Home = () => {
           >
             <BottomSheetScrollView>
               <View style={styles.contentContainer}>
-                <Camera style={styles.camera} /> {/* Expo Camera */}
                 <Searchbar
                   theme={{ colors: { primary: "green", accent: "lightgreen" } }}
                   placeholder="Search"
@@ -76,6 +81,12 @@ const Home = () => {
                       onPress={handleBarcodePress}
                     />
                   )}
+                  style={{
+                    backgroundColor: "#CAD593", // Background color of the Searchbar
+                    // borderRadius: 1, // Optional: Adjust the border radius as needed
+                  }}
+                  // inputStyle={{ color: 'yourTextColor' }} // Text color of the Searchbar
+                  // placeholderTextColor="yourPlaceholderColor" // Placeholder text color
                 />
               </View>
             </BottomSheetScrollView>
@@ -95,6 +106,13 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     marginHorizontal: 15,
+  },
+  scannerStyle: {
+    overflow: "hidden",
+    borderRadius: 20, // Adjust as needed
+    marginTop: 20, // Adjust as needed
+    height: 300,
+    // Add any other desired styling
   },
 });
 
