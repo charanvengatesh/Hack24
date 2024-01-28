@@ -4,7 +4,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
-  Text,
+  Text
 } from "react-native";
 import { Card } from "react-native-paper";
 
@@ -26,7 +26,7 @@ const Home = () => {
   const onChangeSearch = (query) => setSearchQuery(query);
 
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ["13%", "90%"], []);
+  const snapPoints = useMemo(() => ["13%", "50%"], []);
 
   useEffect(() => {
     (async () => {

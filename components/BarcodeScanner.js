@@ -4,10 +4,12 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Alert
+  Alert,
+  Vibration
 } from "react-native";
 import { Camera } from "expo-camera";
 import axios from "axios";
+import HapticFeedback from "react-native-haptic-feedback"
 
 const Scanner = ({ style, onBarCodeScanned }) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -39,6 +41,13 @@ const Scanner = ({ style, onBarCodeScanned }) => {
         `Scanned successfully`,
         [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
       );
+
+      Vibration.vibrate();
+
+      // HapticFeedback.trigger('notificationSuccess', {
+      //   enableVibrateFallback: true,
+      //   ignoreAndroidSystemSettings: false,
+      // });
       // console.log(response.data);
     } catch (error) {
       console.log("there was an error in receiving the data");
@@ -70,11 +79,6 @@ const Scanner = ({ style, onBarCodeScanned }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "flex-end",
-  },
   alignmentBar: {
     position: "absolute",
     left: "20%", // Adjust as needed
