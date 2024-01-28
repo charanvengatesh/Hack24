@@ -11,6 +11,7 @@
   "dependencies": {
     "@freakycoder/react-native-helpers": "^2.3.0",
     "@gorhom/bottom-sheet": "^4.6.0",
+    "axios": "^1.6.7",
     "expo": "~50.0.4",
     "expo-barcode-scanner": "~12.9.2",
     "expo-camera": "^14.0.3",
