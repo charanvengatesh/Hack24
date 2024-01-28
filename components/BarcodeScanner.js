@@ -33,13 +33,16 @@ export default function Scanner({ style }) {
 
   const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
-    Alert.alert("Barcode Scanned", `Type: ${type}\nData: ${data}`, [
-      { text: "OK", onPress: () => setScanned(false) },
-    ]);
+    try {
+      Alert.alert("Barcode Scanned", `Type: ${type}\nData: ${data}`, [
+        { text: "OK", onPress: () => setScanned(false) },
+      ]);
 
-    const response = await axios.post('https://world.openfoodfacts.net/api/v2/product/' + data)
-    console.log(response.data);
-    console.log("here");
+      const response = await axios.post('https://world.openfoodfacts.net/api/v2/product/' + data)
+      console.log(response.data);
+    } catch {
+      console.log("there was an error in receiving the data");
+    }
   };
 
   if (hasPermission === null) {
