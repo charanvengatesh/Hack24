@@ -16,6 +16,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Camera } from "expo-camera";
 import Scanner from "./components/BarcodeScanner";
+import axios from "axios"
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -109,6 +110,7 @@ const Home = () => {
                   placeholder="Search"
                   onChangeText={onChangeSearch}
                   value={searchQuery}
+                  onSubmitEditing={() => search(searchQuery)}
                   onFocus={handleFocus}
                   traileringIcon={() => (
                     <MaterialCommunityIcons
