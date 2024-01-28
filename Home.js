@@ -1,13 +1,9 @@
-import React, { useState, useRef, useMemo } from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from "react-native";
+import React, { useState, useRef, useMemo, useEffect } from "react";
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { Searchbar } from "react-native-paper";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import BarcodeScanner from './components/BarcodeScanner'
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Home = () => {
@@ -34,6 +30,7 @@ const Home = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      {/* <BarcodeScanner /> */}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
           <BottomSheet
@@ -56,6 +53,12 @@ const Home = () => {
                       onPress={handleBarcodePress}
                     />
                   )}
+                  style={{
+                    backgroundColor: '#CAD593', // Background color of the Searchbar
+                    // borderRadius: 1, // Optional: Adjust the border radius as needed
+                  }}
+                  // inputStyle={{ color: 'yourTextColor' }} // Text color of the Searchbar
+                  // placeholderTextColor="yourPlaceholderColor" // Placeholder text color
                 />
               </View>
             </BottomSheetScrollView>
