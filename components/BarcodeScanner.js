@@ -1,31 +1,32 @@
-import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
-import { CameraView, Camera } from "expo-camera/next";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Camera, BarCodeScanner } from 'expo-camera';
 
 export default function BarcodeScanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
   useEffect(() => {
-    const getCameraPermissions = async () => {
+    (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
-      console.log("Camera permission status:", status);
-      setHasPermission(status === "granted");
-    };
-
-    getCameraPermissions();
+      setHasPermission(status === 'granted');
+    })();
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    console.log(`Bar code with type ${type} and data ${data} has been scanned!`);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    if (!scanned) {
+      setScanned(true);
+      alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+
+      // Reset the scanned state after a delay
+      setTimeout(() => {
+        setScanned(false);
+      }, 2000); // Adjust the delay as needed
+    }
   };
 
-  console.log("hasPermission:", hasPermission);
-
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return <Text>Requesting camera permission...</Text>;
   }
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
@@ -33,24 +34,41 @@ export default function BarcodeScanner() {
 
   return (
     <View style={styles.container}>
-      <CameraView
-        onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
-        barcodeScannerSettings={{
-          barCodeTypes: ["qr", "pdf417"],
-        }}
-        style={StyleSheet.absoluteFillObject}
-      />
-      {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
-      )}
+      <Camera
+        style={styles.camera}
+        type={Camera.Constants.Type.back}
+        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        autoFocus="auto"
+      >
+        <View style={styles.overlay}>
+          <Text style={styles.overlayText}>Scan the barcode</Text>
+        </View>
+      </Camera>
     </View>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+  camera: {
+    flex: 1,
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  overlayText: {
+    fontSize: 16,
+    color: 'white',
   },
 });
