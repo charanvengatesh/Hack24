@@ -3,17 +3,16 @@ import {
   Text,
   View,
   StyleSheet,
-  Button,
-  Alert,
   TouchableOpacity,
+  Alert
 } from "react-native";
 import { Camera } from "expo-camera";
+import axios from "axios";
 
-export default function Scanner({ style , onBarCodeScanned}) {
+const Scanner = ({ style, onBarCodeScanned }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const cameraRef = useRef(null);
-
 
   useEffect(() => {
     (async () => {
@@ -29,18 +28,21 @@ export default function Scanner({ style , onBarCodeScanned}) {
     }
   };
 
-
   const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
-    Alert.alert("Barcode Scanned", `Type: ${type}\nData: ${data}`, [
-      { text: "OK", onPress: () => setScanned(false) },
-    ]);
-    onBarCodeScanned(type, data);
-    console.log("here");
+    try {
+      const response = await axios.post('https://world.openfoodfacts.net/api/v2/product/' + data)
+      onBarCodeScanned(response.data);
 
-    
-
-
+      Alert.alert(
+        'Barcode Scanned',
+        `Scanned successfully`,
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+      );
+      // console.log(response.data);
+    } catch (error) {
+      console.log("there was an error in receiving the data");
+    }
   };
 
   if (hasPermission === null) {
@@ -73,9 +75,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-end",
   },
-  camera: {
-    flex: 1,
-  },
   alignmentBar: {
     position: "absolute",
     left: "20%", // Adjust as needed
@@ -84,17 +83,6 @@ const styles = StyleSheet.create({
     backgroundColor: "yellow",
     top: "50%", // Position it in the middle of the screen
   },
-  overlay: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    left: 0,
-    bottom: 0,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  overlayText: {
-    fontSize: 16,
-    color: "white",
-  },
 });
+
+export default Scanner;
