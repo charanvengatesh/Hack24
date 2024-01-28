@@ -33,7 +33,7 @@ export default function Scanner({ style }) {
       <Camera
         style={[StyleSheet.absoluteFillObject, style]}
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        autoFocus={Camera.Constants.AutoFocus.on}
+        autoFocus="on"
       >
         {scanned}
       </Camera>
@@ -41,10 +41,27 @@ export default function Scanner({ style }) {
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+  camera: {
+    flex: 1,
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  overlayText: {
+    fontSize: 16,
+    color: 'white',
   },
 });
