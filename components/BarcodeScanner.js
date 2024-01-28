@@ -42,6 +42,8 @@ const Scanner = ({ style, onBarCodeScanned }) => {
         [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
       );
 
+      console.log(response.data);
+
       Vibration.vibrate();
 
       // HapticFeedback.trigger('notificationSuccess', {

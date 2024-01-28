@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     borderRadius: 12, // Rounded corners
     elevation: 4,
-    width: "80vh",
+    // width: "80vh",
     // height: 300
   },
   cardContent: {
@@ -80,22 +80,22 @@ const ItemCard = ({ data }) => {
           Fat: {product.nutrient_levels.fat}
         </Paragraph>
         <Paragraph style={(styles.paragraph, { marginLeft: 10 })}>
-          Saturated Fat: {product.nutrient_levels.saturatedFat}
+          Saturated Fat: {product.nutrient_levels['saturated-fat']}
         </Paragraph>
         <Paragraph style={(styles.paragraph, { marginLeft: 10, marginBottom: 5 })}>
           Salt: {product.nutrient_levels.salt}
         </Paragraph>
         <Paragraph style={(styles.paragraph)}>
           <Text style={(styles.paragraph, styles.nutrientLabel)}>
-            Nutri-Score:
+            Nutri-Score:{" "}
           </Text>
-          {product.nutriScore || "N/A"}
+          {product.nutriscore['2023'].grade || "N/A"}
         </Paragraph>
         <Paragraph style={styles.paragraph}>
           <Text style={(styles.paragraph, styles.nutrientLabel)}>
-            NOVA Group:
+            NOVA Group:{" "}
           </Text>
-          {product.novaGroup || "N/A"}
+          {product.nova_group || "N/A"}
         </Paragraph>
       </Card.Content>
     </Card>
