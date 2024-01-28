@@ -8,9 +8,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Camera } from "expo-camera";
-import axios from "axios";
 
-export default function Scanner({ style }) {
+export default function Scanner({ style , onBarCodeScanned}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const cameraRef = useRef(null);
@@ -36,10 +35,12 @@ export default function Scanner({ style }) {
     Alert.alert("Barcode Scanned", `Type: ${type}\nData: ${data}`, [
       { text: "OK", onPress: () => setScanned(false) },
     ]);
-
-    const response = await axios.post('https://world.openfoodfacts.net/api/v2/product/' + data)
-    console.log(response.data);
+    onBarCodeScanned(type, data);
     console.log("here");
+
+    
+
+
   };
 
   if (hasPermission === null) {
